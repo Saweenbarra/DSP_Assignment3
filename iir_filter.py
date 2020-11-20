@@ -24,7 +24,7 @@ class IIRFilter:
     def __init__(self, sos):
         self.IIR2filters = []
         for row in sos:
-            self.IIR2filters.append(IIR2Filter(sos[row][:4],sos[row][4:]))
+            self.IIR2filters.append(IIR2Filter(row[:4],row[4:]))
     
     def filter(self,v):
         intermediateOutput = v
