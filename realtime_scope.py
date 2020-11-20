@@ -31,6 +31,8 @@ class RealtimePlotWindow:
         # start the animation
         self.ani = animation.FuncAnimation(self.fig, self.update, interval=100)
 
+        self.accumulativeData = []
+
     # updates the plot
     def update(self, data):
         # add new data to the buffer
@@ -45,6 +47,7 @@ class RealtimePlotWindow:
     # appends data to the ringbuffer
     def addData(self, v):
         self.ringbuffer.append(v)
+        self.accumulativeData.append(v)
 
 
 # Create an instance of an animated scrolling window
@@ -78,5 +81,5 @@ plt.show()
 
 # needs to be called to close the serial port
 board.exit()
-
+np.savetxt("newData.dat", realtimePlotWindow.accumulativeData)
 print("finished")
