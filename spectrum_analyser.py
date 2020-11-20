@@ -34,29 +34,4 @@ fplot = plt.ylabel("dBFS")
 plt.xscale("log")
 plt.xlim(right = fs/2) #Don't plot data after nyquist because it doesn't exist
 
-#Find sample numbers corresponding to 85Hz and 180Hz
-k1 = int(len(dataf)/fs*85)
-k2 = int(len(dataf)/fs*180)
-
-#Amplify selected frequencies by factor
-dataf[k1:k2+1] *= 1.2
-dataf[-k2-1:-k1] *= 1.2
-
-#Find sample numbers corresponding to 6kHz and 10kHz
-k1 = int(len(dataf)/fs*6000)
-k2 = int(len(dataf)/fs*10000)
-
-#Amplify selected frequencies by factor
-dataf[k1:k2+1] *= 3
-dataf[-k2-1:-k1] *= 3
-
-#Convert boosted signal to time domain
-dataBoost = np.fft.ifft(dataf)
-dataBoost = np.real(dataBoost)
-
-#Cast 64bit floats to int to be written to wav file
-dataBoost = dataBoost.astype(np.int16)
-
-#Write boosted signal to wav file
-
 plt.show() #Plot all graphs
