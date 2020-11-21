@@ -5,10 +5,12 @@ import iir_filter as iir
 import matplotlib.pyplot as plt
 import RealtimePlotWindow as rtpw
 
-realtimePlotWindow = rtpw.RealtimePlotWindow()
+unfilteredPlot = rtpw.RealtimePlotWindow()
+filteredPlot = rtpw.RealtimePlotWindow()
+
 
 fs = 100
-fc = 2
+fc = 0.5
 
 b,a = signal.butter(2,2*fc/fs)
 sos = signal.butter(4,2*fc/fs,output='sos')
@@ -16,7 +18,8 @@ filter = iir.IIR2Filter(b,a)
 #filter = iir.IIR2Filter(sos)
 
 def myCallback(data):
-    realtimePlotWindow.addData(filter.filter(data))
+    unfilteredPlot.addData(data)
+    filteredPlot.addData(filter.filter(data))
 
 board = Arduino('/dev/ttyACM3')
 
@@ -25,7 +28,6 @@ board.samplingOn(1000/fs)
 
 board.analog[0].register_callback(myCallback)
 board.analog[0].enable_reporting()
-
 
 plt.show()
 
