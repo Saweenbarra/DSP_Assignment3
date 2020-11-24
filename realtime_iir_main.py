@@ -13,9 +13,9 @@ fs = 100
 fc = 0.5
 
 b,a = signal.butter(2,2*fc/fs)
-sos = signal.butter(4,2*fc/fs,output='sos')
-filter = iir.IIR2Filter(b,a)
-#filter = iir.IIR2Filter(sos)
+sos = signal.butter(6,2*fc/fs,output='sos')
+#filter = iir.IIR2Filter(b,a)
+filter = iir.IIRFilter(sos)
 
 def myCallback(data):
     unfilteredPlot.addData(data)
