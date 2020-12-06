@@ -4,13 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-# Realtime oscilloscope at a sampling rate of 50Hz
-# It displays analog channel 0.
-# You can plot multiple chnannels just by instantiating
-# more RealtimePlotWindow instances and registering
-# callbacks from the other channels.
-
-
 # Creates a scrolling data display
 class RealtimePlotWindow:
 
