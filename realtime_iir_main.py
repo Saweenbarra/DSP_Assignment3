@@ -7,12 +7,15 @@ import RealtimePlotWindow as rtpw
 import time
 import threading
 
+#Plotting windows
 unfilteredPlot = rtpw.RealtimePlotWindow()
 filteredPlot = rtpw.RealtimePlotWindow()
 
+#Non-blocking timer thread variables
 sampleCount = 0
 timer_run = 1
 
+#Non-blocking timer thread
 def timerfunc():
     global sampleCount
     global timer_run
@@ -23,19 +26,16 @@ def timerfunc():
 
 timer = threading.Thread(target=timerfunc)
 
-fs = 100
-fc = 1
+fs = 100 #Sampling at 100Hz
+fc = 1 #1Hz cut-off frequency
 
-#b,a = signal.cheby1(6,0.5,2*fc/fs)
-#sos = signal.cheby1(6,0.5,2*fc/fs,output='sos')
-b,a = signal.butter(6,2*fc/fs)
+#Generate sos coefficients
 sos = signal.butter(6,2*fc/fs,output='sos')
-w,h = signal.freqz(b,a)
-plt.figure(3)
-plt.plot(w/np.pi/2,20*np.log10(np.abs(h)))
-#filter = iir.IIR2Filter(b,a)
+
+#Create the filter object
 filter = iir.IIRFilter(sos)
 
+#Callback function triggered by Arduino
 def myCallback(data):
     unfilteredPlot.addData(data)
     filteredPlot.addData(filter.filter(data))
@@ -50,10 +50,13 @@ board.samplingOn(1000/fs)
 
 board.analog[0].register_callback(myCallback)
 board.analog[0].enable_reporting()
+
+#Start timer to check data acquisition rate
 timer.start()
 
-
 plt.show()
+
+#Kill the timer thread
 timer_run = 0
-# needs to be called to close the serial port
+
 board.exit()

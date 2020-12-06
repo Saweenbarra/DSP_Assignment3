@@ -39,5 +39,3 @@ class IIRFilter:
         for f in self.IIR2filters:
             intermediateOutput = f.filter(intermediateOutput)
         return intermediateOutput
-
-
