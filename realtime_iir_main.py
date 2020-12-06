@@ -43,7 +43,7 @@ def myCallback(data):
     sampleCount += 1
 
 
-board = Arduino('/dev/ttyACM3')
+board = Arduino(Arduino.AUTODETECT)
 
 #Sample every 1000/fs milliseconds
 board.samplingOn(1000/fs)
