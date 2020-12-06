@@ -1,8 +1,8 @@
 #2nd order, form II, IIR filter class
 class IIR2Filter:
-    def __init__(self,_num,_den):
-        self.numerator = _num
-        self.denominator = _den
+    def __init__(self,_firCoeff,_iirCoeff):
+        self.firCoeff = _firCoeff
+        self.iirCoeff = _iirCoeff
         self.buffer1 = 0
         self.buffer2 = 0
     
@@ -10,11 +10,11 @@ class IIR2Filter:
         inp=0.0
         out=0.0
         inp=v
-        out=(self.numerator[1]*self.buffer1)
-        inp=inp-(self.denominator[1]*self.buffer1)
-        out=out+(self.numerator[2]*self.buffer2)
-        inp=inp-(self.denominator[2]*self.buffer2)
-        out=out+inp*self.numerator[0]
+        out=(self.firCoeff[1]*self.buffer1)
+        inp=inp-(self.iirCoeff[1]*self.buffer1)
+        out=out+(self.firCoeff[2]*self.buffer2)
+        inp=inp-(self.iirCoeff[2]*self.buffer2)
+        out=out+inp*self.firCoeff[0]
         self.buffer2=self.buffer1
         self.buffer1=inp
         return out
