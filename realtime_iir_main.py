@@ -21,15 +21,18 @@ def timerfunc():
         print(sampleCount)
         sampleCount = 0
 
-
-
 timer = threading.Thread(target=timerfunc)
 
 fs = 100
-fc = 0.5
+fc = 1
 
-b,a = signal.butter(2,2*fc/fs)
+#b,a = signal.cheby1(6,0.5,2*fc/fs)
+#sos = signal.cheby1(6,0.5,2*fc/fs,output='sos')
+b,a = signal.butter(6,2*fc/fs)
 sos = signal.butter(6,2*fc/fs,output='sos')
+w,h = signal.freqz(b,a)
+plt.figure(3)
+plt.plot(w/np.pi/2,20*np.log10(np.abs(h)))
 #filter = iir.IIR2Filter(b,a)
 filter = iir.IIRFilter(sos)
 
